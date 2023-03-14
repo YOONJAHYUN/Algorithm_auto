@@ -1,13 +1,24 @@
 import sys
-from itertools import permutations
 input = sys.stdin.readline
+
+def NM(depth, i):
+
+    if depth == M:
+        print(i.lstrip())
+        return
+
+    for j in range(N):
+        if not visited[j]:
+            visited[j] = True
+            NM(depth+1, i + ' '+str(data[j]))
+            visited[j] = False
 
 N, M = map(int, input().split())
 
 data = list(map(int, input().split()))
 data.sort()
-lst = list(permutations(data, M))
 
-for i in lst:
-    print(*i)
+# 백트래킹으로 풀어보자
 
+visited = [False] * N
+NM(0, '')
