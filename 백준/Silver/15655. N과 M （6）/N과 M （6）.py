@@ -1,26 +1,21 @@
-import sys
-input = sys.stdin.readline
+n,m = map(int,input().split())
 
-def NM(depth, i, idx):
-    if depth == M:
-        print(i.lstrip())
+arr = list(map(int,input().split()))
+
+arr.sort()
+
+def comb(res,i,depth):
+    if depth == m:
+        print(*res)
+        return
+    if i == n:
         return
 
-    for j in range(idx, N):
-        # 선택되어 있지 않은 걸 넣어야됨
-        if not selection[j]:
-            selection[j] = True
-            NM(depth+1, i +' '+str(numbers[j]), idx+1)
-            # 조합으로 구하는 것이기때문에 idx를 하나씩 증가시켜준다.
-            idx += 1
-            selection[j] = False
+    # arr[i] 를 포함
+    comb(res+[arr[i]], i +1, depth+1)
+
+    # arr[i] 를 포함 X
+    comb(res, i + 1, depth)
 
 
-
-N, M = map(int, input().split())
-numbers = list(map(int, input().split()))
-# 사전 순이므로 정렬
-numbers.sort()
-
-selection = [False] * N
-NM(0, '', 0)
+comb([],0,0)
