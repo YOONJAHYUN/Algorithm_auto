@@ -1,20 +1,18 @@
-# # 최대힙
-#
 import sys
-import heapq
+from heapq import heappop,heappush
+
 input = sys.stdin.readline
+
 
 N = int(input())
 heap = []
-
 for _ in range(N):
-    num = int(input())
+    x = int(input())
 
-    if num == 0:
+    if x == 0:
         if heap:
-            print(abs(heapq.heappop(heap)))
+            print(-1*heappop(heap))
         else:
             print(0)
     else:
-        heapq.heappush(heap, -num)
-
+        heappush(heap, -x)
