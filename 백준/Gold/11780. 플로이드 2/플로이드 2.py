@@ -1,52 +1,42 @@
 import sys
 input = sys.stdin.readline
 
-# 도시
-n = int(input())
-# 버스의 개수
-m = int(input())
+n=int(input())
+m=int(input())
+cities = [[float('inf') for _ in range(n+1)] for _ in range(n+1)]
+pre_node = [[0 for _ in range(n+1)] for _ in range(n+1)]
+for i in range(1,n+1):
+    cities[i][i] = 0
 
-INF = int(1e9)
-graph = [[INF]*(n+1) for _ in range(n+1)]
-road = [[[0] for _ in range(n+1)] for _ in range(n+1)]
-
-for i in range(n+1):
-    graph[i][i] = 0
-
-# 버스의정보
 for _ in range(m):
-    a, b, c = map(int, input().split())
-    graph[a][b] = min(c, graph[a][b])
-    # 마지막노드를 미리정함
-    road[a][b] = [a, b]
+    a,b,c = map(int,input().split())
+    cities[a][b] = min(cities[a][b],c)
+    # 이전노드 저장.
+    pre_node[a][b] = a
 
-# 최소비용
-for i in range(1, n+1):
-    for j in range(1, n+1):
-        for k in range(1, n+1):
-            if graph[j][k] > graph[j][i] + graph[i][k]:
-                graph[j][k] = graph[j][i] + graph[i][k]
-                # 마지막노드가있으니 갈 수있었으니까 그친구를 넣음
-                road[j][k] = [*road[j][i], i, *road[i][k]]
+for k in range(1,n+1):
+    for i in range(1,n+1):
+        for j in range(1,n+1):
+            if cities[i][j] > cities[i][k] + cities[k][j]:
+                cities[i][j] = cities[i][k] + cities[k][j]
+                pre_node[i][j] = pre_node[k][j]
 
-# 최소비용
-for i in range(1, n+1):
-    for j in range(1, n+1):
-        if graph[i][j] == INF:
-            print(0, end=' ')
-        else:
-            print(graph[i][j], end=' ')
+for i in range(1,n+1):
+    for j in range(1,n+1):
+        print(cities[i][j] if not cities[i][j]==float('inf') else 0,end=" ")
     print()
-
-for i in range(1, n+1):
-    for j in range(1, n+1):
-        temp =[]
-        for ans in road[i][j]:
-            if ans not in temp:
-                temp.append(ans)
-
-        if len(temp) == 1:
+# i 에서 j로 가는 최소비용에 포함되어 잇는 도시의 개수 k출력
+# i에서 j로 가는 경로를 공배으로 구분해 출력.
+for i in range(1,n+1):
+    for j in range(1,n+1):
+        if cities[i][j]==float('inf') or cities[i][j]==0:
             print(0)
         else:
-            print(len(temp), *temp)
-            
+            # i에서 경로를 따라 최단거리를 추적하는 노드들.
+            path = [j]
+            end_point = j
+            while end_point != i:
+                path.append(pre_node[i][end_point])
+                end_point = pre_node[i][end_point]
+            print(len(path), end=" ")
+            print(*path[::-1])
