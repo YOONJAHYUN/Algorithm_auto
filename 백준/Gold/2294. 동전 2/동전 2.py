@@ -1,22 +1,26 @@
 import sys
 input = sys.stdin.readline
 
+# 문어박사님 1차원 dp코드
+
 n, k = map(int, input().split())
+sset = set()
 
-dp = [[int(1e9)]*(k+1) for _ in range(n)]
+for _ in range(n):
+    sset.add(int(input()))
 
-for i in range(n):
-    coin = int(input())
-    dp[i][0] = 0
+# dp테이블 생성 및 초기화
+INF = k+1
+dp = [INF] * (k+1)
+
+dp[0] = 0
+
+for coin in sset:
     for j in range(1, k+1):
-        if j - coin >= 0:
-            dp[i][j] = min(dp[i-1][j], dp[i][j-coin]+1)
-        else:
-            dp[i][j] = dp[i - 1][j]
-ans = dp[n-1][-1]
+        if j-coin >= 0:
+            dp[j] = min(dp[j], dp[j-coin]+1)
+ans = dp[k]
 
-if ans == int(1e9):
-    print(-1)
-else:
-    print(ans)
-    
+if ans == INF:
+    ans = -1
+print(ans)
