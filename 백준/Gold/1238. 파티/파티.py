@@ -1,46 +1,46 @@
 import sys
-from heapq import heappop, heappush
+from heapq import heappush, heappop
 input = sys.stdin.readline
 
 def dijkstra(start):
-    visited = [1e9] * (N+1)
-    visited[start[1]] = 0
+    v = [int(1e9)] * (n + 1)
+    v[start[1]] = 0
+    q = []
+    heappush(q, start)
 
-    heap = []
-    heappush(heap, start)
+    while q:
 
-    while heap:
-        time, now = heappop(heap)
+        time, now = heappop(q)
 
-        if visited[now] < time:
+        if v[now] < time:
             continue
 
-        for new_time, next in graph[now]:
+        for now_time, next in graph[now]:
+            # print(now_time, next)
+            total = now_time + time
 
-            res = new_time + time
+            if total < v[next]:
+                v[next] = total
 
-            if res < visited[next]:
-                visited[next] = res
-                heappush(heap, (res, next))
+                heappush(q, (total, next))
 
-    return visited
+    if start[1] == x:
+        return v
+    else:
+        return v[x]
 
-N, M, X = map(int, input().split())
-graph = [[] for _ in range(N+1)]
-for _ in range(M):
-    start, end, time = map(int,input().split())
-    graph[start].append((time, end))
+n, m, x = map(int, input().split())
+graph = [[] for _ in range(n+1)]
 
-result = 0
-lst = dijkstra((0, X))
-# 가는데 걸리는 시간
-for i in range(1, N+1):
-    ans = dijkstra((0, i))[X]+lst[i]
-    result = max(result, ans)
 
-print(result)
-# 오는데 걸리는시간
-# print(dijkstra((0, X)))
-'''
-학생 1부터 N까지 중에서 가장 오래 걸리는 시간
-'''
+for _ in range(m):
+    s, e, t = map(int, input().split())
+    graph[s].append((t, e))
+
+back = dijkstra((0, x))
+
+ans = 0
+for i in range(1, n+1):
+    if i != x:
+        ans = max((dijkstra((0, i))+back[i]), ans)
+print(ans)
