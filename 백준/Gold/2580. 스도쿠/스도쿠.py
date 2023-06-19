@@ -1,49 +1,57 @@
 import sys
 input = sys.stdin.readline
 
-def checkRow(x, a):
-    for i in range(9):
-        if a == data[x][i]:
+# 가로 체크
+def check1(y, x, num):
+    for number in data[y]:
+        if number == num:
             return False
-    else:
-        return True
 
-def checkCol(y, a):
+    return True
+
+# 세로체크
+def check2(y, x, num):
+
     for i in range(9):
-        if a == data[i][y]:
+        if data[i][x]== num:
             return False
-    else:
-        return True
 
-def checkRect(x,y,a):
-    for i in range((x//3)*3, (x//3)*3+3):
-        for j in range((y//3)*3, (y//3)*3+3):
-            if a == data[i][j]:
+    return True
+
+# 3*3 체크
+def check3(y, x, num):
+    for i in range(3):
+        for j in range(3):
+            if data[(y//3)*3 + i][(x//3)*3 + j] == num:
                 return False
-    else:
-        return True
-    
-def dfs(idx):
-    if idx == len(blank):
+
+    return True
+
+
+def check(now):
+
+    if now == len(lst):
         for i in data:
             print(*i)
+        # return
         exit(0)
+    else:
+        y, x = lst[now]
+        for num in range(1, 10):
+            if check1(y, x, num) and check2(y, x, num) and check3(y, x, num):
+                data[y][x] = num
+                # print(y, x, num)
+                check(now+1)
+                data[y][x] = 0
 
-    for i in range(1, 10):
-        x = blank[idx][0]
-        y = blank[idx][1]
-
-        if checkRow(x, i) and checkCol(y, i) and checkRect(x,y,i):
-            data[x][y] = i
-            dfs(idx+1)
-            data[x][y] = 0
 
 
 data = [list(map(int, input().split())) for _ in range(9)]
-blank = []
+
+lst = []
 for i in range(9):
     for j in range(9):
         if data[i][j] == 0:
-            blank.append([i,j])
+            lst.append((i, j))
 
-dfs(0)
+check(0)
