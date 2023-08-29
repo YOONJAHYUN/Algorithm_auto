@@ -21,9 +21,9 @@ while q:
         ans = cnt
         break
     for i in range(n-k+1):
-        next_middle = now[i:i+k]
-        next_middle.reverse()
-        next_data = now[:i] + next_middle + now[i+k:]
+        # next_middle = now[i:i+k]
+        # next_middle.reverse()
+        next_data = now[:i] + now[i:i+k][::-1] + now[i+k:]
         numbs = ''.join(next_data)
         if numbs not in visited:
             q.append((next_data, cnt+1))
