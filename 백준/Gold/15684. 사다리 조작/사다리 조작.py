@@ -1,5 +1,4 @@
 import sys
-# from copy import deepcopy
 input = sys.stdin.readline
 
 def ladder(depth, arr):
@@ -9,7 +8,6 @@ def ladder(depth, arr):
         return
 
     if check(arr):
-
         answer = min(depth, answer)
 
     if depth == 3:
@@ -24,12 +22,10 @@ def ladder(depth, arr):
 
 
 def check(arr):
-    # result = [0]
 
     for j in range(1, n + 1):
         y = 0
         x = j
-        # print(now, "여기", j)
         while True:
 
             if y == h:
@@ -43,9 +39,6 @@ def check(arr):
                 x -= 1
             y += 1
 
-    # print("result")
-    # print(result)
-    # print("@#%@%$@%@")
     return True
 
 # n 세로선 m 가로선 h 위치의 개수
@@ -60,9 +53,7 @@ for _ in range(m):
     arr[a-1][b+1] = 2
 
 
-# for i in arr:
-#     print(i)
+
 ladder(0, arr)
-#
-# print(answer)
+
 print(answer if answer < 4 else -1)
