@@ -38,7 +38,6 @@ def check(arr):
                 ny, nx = ty+dy*mul, tx+dx*mul
 
                 if 0 <= ny < n and 0 <= nx < n:
-
                     # 학생을 만난다면 이건 안되는 경우
                     if arr[ny][nx] == 'S':
                         return False
@@ -68,4 +67,3 @@ for i in range(n):
 
 put_obstacle(0, arr)
 print("NO")
-
