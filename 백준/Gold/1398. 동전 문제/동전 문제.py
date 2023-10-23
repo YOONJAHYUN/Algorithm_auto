@@ -20,4 +20,3 @@ for _ in range(t):
         answer += dp[cost % 100]
         cost //= 100
     print(answer)
-    
