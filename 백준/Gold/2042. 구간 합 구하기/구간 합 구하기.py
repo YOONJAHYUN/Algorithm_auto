@@ -44,10 +44,10 @@ def update(start, end, idx, diff, i=1):
 # n 수의 개수, m 수의 변경이 일어나는 횟수, k 구간의 합
 n, m, k = map(int, input().split())
 
-nums = [int(input()) for _ in range(n)]
+nums = [0] + [int(input()) for _ in range(n)]
 
-tree = [0] * 2**(ceil(log(n, 2) + 1))
-segment(0, n-1)
+tree = [0] * 2**(ceil(log(n, 2) + 2))
+segment(0, n)
 
 # print(tree)
 
@@ -55,9 +55,9 @@ for _ in range(m+k):
     a, b, c = map(int, input().split())
 
     if a == 1:
-        update(0, n-1, b-1, (c-nums[b-1]))
-        nums[b-1] = c
+        update(0, n, b, (c-nums[b]))
+        nums[b] = c
 
     else:
-        print(search(0, n-1, b-1, c-1))
+        print(search(0, n, b, c))
 
