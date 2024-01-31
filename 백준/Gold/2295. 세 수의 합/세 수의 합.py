@@ -1,27 +1,27 @@
-import sys
-
-input = sys.stdin.readline
-
-
-
 n = int(input())
+arr = [int(input()) for _ in range(n)]
+arr.sort()
+arr2 = []
+for i in range(n):
+    for j in range(i, n):
+        arr2.append(arr[j] + arr[i])
 
-my_dict = {}
-data = []
-for _ in range(n):
-    temp = int(input())
-    my_dict[temp] = 1
-    data.append(temp)
+arr2.sort()
+result = 0
+for i in range(n):
+    for j in range(i, n):
+        a = arr[j] - arr[i]
+        start = 0
+        end = len(arr2) - 1
+        while start <= end:
+            mid = (start + end) // 2
+            b = arr2[mid]
+            if a > b:
+                start = mid + 1
+            elif a < b:
+                end = mid - 1
+            else:
+                result = max(result, arr[j])
+                break
 
-data.sort()
-
-ans = 0
-
-for i in range(n-2, -1, -1):
-    for j in range(i, -1, -1):
-        for k in range(j, -1, -1):
-            tmp = data[i] + data[j] + data[k]
-            if my_dict.get(tmp):
-                ans = max(tmp, ans)
-
-print(ans)
+print(result)
