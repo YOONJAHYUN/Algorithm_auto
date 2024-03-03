@@ -40,9 +40,8 @@ def move(y, x, ny, nx, i):
         print(-1)
         exit(0)
 
-
-
 DIR = [(0, 0), (0, 1), (0, -1), (-1, 0), (1, 0)]
+opp_dr = {1:2, 2:1, 3:4, 4:3}
 
 n, k = map(int, input().split())
 
@@ -72,14 +71,15 @@ while True:
         # 체스판이 파란색이거나 체스판 외로 가는 경우
         else:
             # 방향전환
-            if d == 1:
-                d = 2
-            elif d == 2:
-                d = 1
-            elif d == 3:
-                d = 4
-            else:
-                d = 3
+            d = opp_dr[d]
+            # if d == 1:
+            #     d = 2
+            # elif d == 2:
+            #     d = 1
+            # elif d == 3:
+            #     d = 4
+            # else:
+            #     d = 3
 
             chess_piece[i][2] = d
 
